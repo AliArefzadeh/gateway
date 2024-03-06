@@ -105,14 +105,41 @@ php artisan migrate
 
 ```
 
+<div dir="rtl"> 
+
+**مرحله ۵) - تغییرات زیر را درون database/seeders/DatabaseSeeder.php اضافه کنید**
+
+</div>
+
+```php
+
+$this->call([
+            GatewaySeeder::class,
+            GatewayVariationSeeder::class,
+            GateVarValueSeeder::class,
+        ]);
+
+```
+
+<div dir="rtl"> 
+
+**مرحله 6) - ساخت اطلاعات درگاه‌ها درون جداول**
+
+</div>
+
+```php
+
+php artisan db:seed
+
+```
+
 
 <div dir="rtl"> 
  
-**مرحله ۵)**
+**مرحله 7)**
 
-عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/  باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
-
-حال میتوایند برای اتصال به api  بانک  از یکی از روش های زیر به انتخاب خودتان استفاده نمایید . (Facade , Service container):
+اطلاعات درگاه ها حالا از دیتابیس خوانده میشود.
+حال شما میتوانید اطلاعات هرکدام از درگاه ها هارا مانند فایل GateVarValueSeeder.php که اطلاعات درگاه mellat را در دیتابیس ثبت کرده, درون دیتابیس ثبت نمایید و به شکل مثال پایین از آنها استفاده کنید
 </div>
  
  1. Gateway::make(new Mellat())

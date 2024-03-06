@@ -76,7 +76,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.asanpardakht.callback-url');
+            $this->callbackUrl = data_get($this->config,'gateway.asanpardakht.callback-url');
 
         $url = $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 
@@ -94,8 +94,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
     {
         $this->newTransaction();
 
-        $username = $this->config->get('gateway.asanpardakht.username');
-        $password = $this->config->get('gateway.asanpardakht.password');
+        $username = data_get($this->config,'gateway.asanpardakht.username');
+        $password = data_get($this->config,'gateway.asanpardakht.password');
         $orderId = $this->transactionId();
         $price = $this->amount;
         $localDate = date("Ymd His");
@@ -105,7 +105,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
         $encryptedRequest = $this->encrypt($req);
         $params = array(
-            'merchantConfigurationID' => $this->config->get('gateway.asanpardakht.merchantConfigId'),
+            'merchantConfigurationID' => data_get($this->config,'gateway.asanpardakht.merchantConfigId'),
             'encryptedRequest' => $encryptedRequest
         );
 
@@ -181,12 +181,12 @@ class Asanpardakht extends PortAbstract implements PortInterface
     protected function verifyAndSettlePayment()
     {
 
-        $username = $this->config->get('gateway.asanpardakht.username');
-        $password = $this->config->get('gateway.asanpardakht.password');
+        $username = data_get($this->config,'gateway.asanpardakht.username');
+        $password = data_get($this->config,'gateway.asanpardakht.password');
 
         $encryptedCredintials = $this->encrypt("{$username},{$password}");
         $params = array(
-            'merchantConfigurationID' => $this->config->get('gateway.asanpardakht.merchantConfigId'),
+            'merchantConfigurationID' => data_get($this->config,'gateway.asanpardakht.merchantConfigId'),
             'encryptedCredentials' => $encryptedCredintials,
             'payGateTranID' => $this->trackingCode
         );
@@ -239,8 +239,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
     private function encrypt($string = "")
     {
 
-        $key = $this->config->get('gateway.asanpardakht.key');
-        $iv = $this->config->get('gateway.asanpardakht.iv');
+        $key = data_get($this->config,'gateway.asanpardakht.key');
+        $iv = data_get($this->config,'gateway.asanpardakht.iv');
 
         try {
 
@@ -268,8 +268,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
      */
     private function decrypt($string = "")
     {
-        $key = $this->config->get('gateway.asanpardakht.key');
-        $iv = $this->config->get('gateway.asanpardakht.iv');
+        $key = data_get($this->config,'gateway.asanpardakht.key');
+        $iv = data_get($this->config,'gateway.asanpardakht.iv');
 
         try {
 
